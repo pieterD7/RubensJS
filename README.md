@@ -7,4 +7,4 @@ It is a collection of the js objects from https://www.microsoft.com/store/apps/9
 Visuals take the sizes of their parent html container. The common data structure is : 
 
 ```javascript
-{ label: x, data:[{to:y1, to:y2, ...}]}
+{ label: x, data:[{to:y}]}
