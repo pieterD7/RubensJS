@@ -456,7 +456,7 @@ define(['util/util', 'rubensjs/colors'], function (util, C) {
                 // outside visible area. To show the cipped paths in full the svg needs
                 // to be de-grouped and main element (a layer) needs to have the
                 // clipping mask removed. This is a bit of a hassle though ...
-                el.setAttribute('clip-path', 'url(#mainClip)')
+                //el.setAttribute('clip-path', 'url(#mainClip)')
 
                 S.svgEl.appendChild(el);
 
