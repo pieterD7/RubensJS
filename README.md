@@ -13,3 +13,5 @@ It is a collection of the js objects from https://www.microsoft.com/store/apps/9
 ![Comparison Substract](/jpg/incomings.jpg)
 
 ![Stacked Columns](/jpg/columns_stacked.jpg)
+
+![Linegraph](/jpg/bloeddruk(41).png)
