@@ -6,16 +6,16 @@ The visual takes the sizes from the parent container in html. Most objects can b
 
 It is a collection of the js objects from https://www.microsoft.com/store/apps/9N3JX17RPTD4 
 
-![Pie](/jpg/pie.jpg)
+![Pie](/jpg/pie.jpg | width =400)
 
-![Arc](/jpg/pie_arc.jpg)
+![Arc](/jpg/pie_arc.jpg | width =400)
 
-![Double Pie](/jpg/pie_double.jpg)
+![Double Pie](/jpg/pie_double.jpg | width =400)
 
-![Columns Pattaren fill](/jpg/columns_stripes.jpg)
+![Columns Pattaren fill](/jpg/columns_stripes.jpg | width =400)
 
-![Comparison Substract](/jpg/incomings.jpg)
+![Comparison Substract](/jpg/incomings.jpg | width =400)
 
-![Stacked Columns](/jpg/columns_stacked.jpg)
+![Stacked Columns](/jpg/columns_stacked.jpg | width =400)
 
-![Linegraph](/jpg/linegraph.png)
+![Linegraph](/jpg/linegraph.png | width =400)
