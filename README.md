@@ -20,5 +20,4 @@ It is a collection of the js objects from https://www.microsoft.com/store/apps/9
 
 <img src='/jpg/linegraph.png' width='400'/>
 
-<img src='/jpg/pie.jpg' width='400'/>
 
