@@ -18,7 +18,7 @@ requirejs([
             paddingBottom:50,
             padding:0,
             fontSize:18,
-            halfFontXHeight:4,
+            halfFontXHeight:8,
             opts: {
                 dir:1,
                 mode:0
@@ -29,22 +29,22 @@ requirejs([
 
         graph.setRange(new R.Range(0,1,0,Math.pow(2,8)-1));
 
+        graph.setSteps(1,1)
+
+        graph.drawAxis(true)
+
         function onPopState(){
 
             var val = new URI.URI().uri
 
             graph.invalidate();
 
-            graph.setSteps(1,1)
-
-            var data = [{label:null, unit:'', row:0, data:[{to:parseInt(val)}]}]
-            graph.setData([data], null, '', 1)
-
+            var data = [{label:null, row:0, data:[{to:parseInt(val)}]}]
+            graph.setData([data])
 
             graph.D.openGroup('svgLayer')
 
             graph.drawData()
-            graph.drawAxis(true, false, false)
 
             graph.D.closeGroup('svgLayer')
 
