@@ -1346,7 +1346,7 @@ define([
                         if (this.drawMarkersAndLabelsY) {
                             this.D.drawMarksYAxis(this.stepsY, this.yAxisMarksAttributes, this.yAxisLabelsAttributes, yValueIsSeconds);
                         }
-                        if (parseInt(drawAxis))
+                        if (drawAxis == true)
                             this.D.drawAxis(this.drawOrigin, this.xAxisAttributes, this.yAxisAttributes, this.originTextAttributes);
 
                         this.makeClickable()

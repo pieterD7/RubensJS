@@ -44,7 +44,7 @@ requirejs([
             graph.D.openGroup('svgLayer')
 
             graph.drawData()
-            graph.drawAxis(1, false, false)
+            graph.drawAxis(true, false, false)
 
             graph.D.closeGroup('svgLayer')
 
