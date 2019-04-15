@@ -5,13 +5,14 @@ define([
     "rubensjs/interface",
     "rubensjs/PLG/pannableOrigin",
     "rubensjs/PLG/zoomable",
-    "rubensjs/PLG/pushableData",
+    //"rubensjs/PLG/pushableData",
     "rubensjs/PLG/swipeableX",
     "rubensjs/PLG/pullLines",
     "rubensjs/types",
     "rubensjs/colors",
     "util/util"],
-    function (Rubens, _2d, L, I, P, Z, PP, S, U, R, C, util) {
+    function (Rubens, _2d, L, I, P, Z, /*PP, */S, U, R, C, util) {
+
         return {
             Range: R.Range,
 
@@ -28,7 +29,7 @@ define([
                 return util.extend(
                     [//new P.PannableOrigin(),
 
-                    new PP.PushableData(),
+                    //new PP.PushableData(),
 
                     new S.SwipeableX(),
 
@@ -521,9 +522,10 @@ define([
                                             color = C.itemAlternateColor(ii % this.opts.groupBy)
                                         else if (this.opts.groupBy > 1 && this.opts.colorIter == 1)
                                             color = C.itemColor(ii % this.opts.groupBy)                                    
+
                                     }
 
-                                    if (isBg && this.opts.cmpMode == 1)                                        
+                                    if (isBg && this.opts.cmpMode == 1)
                                         color.color = C.shadesOfColor(color.color, 2)[0]
                                     else if(isBg)
                                         color = { color: axisColor }
