@@ -1,7 +1,7 @@
 define(['util/util'], function (util) {
 
     return {
-
+        'color_indicator_green': '#15AA33',
         'color_balloon_fill': '#f7f7f7',
         'color_balloon_stroke': '#b3b3b3',
         'color_balloon_text': '#b3b3b3',
