@@ -227,6 +227,8 @@ define([
                             dx = r,
                             dy = r
 
+                        if(isNaN(angle)) return new R.Point(0, 0)
+
                         if (angle < 0.25) {
 
                             var d = angle * 360 * util.dgrToRad
