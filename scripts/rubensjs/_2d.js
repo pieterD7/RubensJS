@@ -218,6 +218,56 @@ define([
                         }
                     },
 
+                    // For turning clockwise with arcTo (lowercase a)
+                    // Starting point is given by zero degrees or 12 o'clock
+                    // and turning clockwise
+                    pointOnCircleWithAngleFromCenter: function (radius, angle) {
+
+                        var r = radius,
+                            dx = r,
+                            dy = r
+
+                        if (angle < 0.25) {
+
+                            var d = angle * 360 * util.dgrToRad
+
+                            // sin(d) = opposite / hypotenuse
+                            // sin(d) = x / r
+                            dx = Math.sin(d) * r
+
+                            // x*x + y*y = r*r
+                            // y*y = r*r - x*x
+                            dy = r - Math.sqrt(r * r - dx * dx)
+
+                            return new R.Point(dx, dy)
+                        }
+                        else if (angle < 0.5) {
+                            var d = angle * 360 * util.dgrToRad
+
+                            dx = Math.sin(d) * r
+                            dy = r + Math.sqrt(r * r - dx * dx)
+
+                            return new R.Point(dx, dy)
+                        }
+                        else if (angle < 0.75) {
+                            var d = angle * 360 * util.dgrToRad
+                            dx = Math.sin(d) * r
+
+                            dy = r + Math.sqrt(r * r - dx * dx)
+
+                            return new R.Point(dx, dy)
+                        }
+                        else if (angle <= 1.0) {
+                            var d = (angle - 0.75) * 360 * util.dgrToRad
+                            dy = -1 * Math.sin(d) * r
+                            dx = r - Math.sqrt(r * r - dy * dy)
+
+                            return new R.Point(dx, dy)
+                        }
+                    },
+
+
+
                     // Doesn't take inside/outside into account
                     // .. 
                     addCorners: function (lastP, p, rpts, P, cornerPoints) {

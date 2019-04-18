@@ -741,7 +741,7 @@ define([    "rubensjs/rubens",
 
                     drawValueInnerPie: function (x, y, color, dgr, to) {
                         var hole = Math.max(20, this.opts.doughnutHoleInner),
-                            p = this.pointOnCircleWithAngleFromCenter(this.r / 2 + hole / 2, R.Float(dgr + to / 2)),
+                            p = this.D.pointOnCircleWithAngleFromCenter(this.r / 2 + hole / 2, R.Float(dgr + to / 2)),
                             val = util.round(to * 100, 1),
                             clr = color.dark === true|| C.isDark(color.color) ? '#ffffff' : '#000000'
 
@@ -807,14 +807,14 @@ define([    "rubensjs/rubens",
                         var offs = fontSize, // Space between labels and circle
 
                             // Outer circle
-                            p = this.pointOnCircleWithAngleFromCenter(this.r + offs, R.Float(dgr + to / 2)),
+                            p = this.D.pointOnCircleWithAngleFromCenter(this.r + offs, R.Float(dgr + to / 2)),
 
                             // Inner circle
-                            p2 = this.pointOnCircleWithAngleFromCenter(this.r, R.Float(dgr + to / 2)),
+                            p2 = this.D.pointOnCircleWithAngleFromCenter(this.r, R.Float(dgr + to / 2)),
 
-                            p3 = this.pointOnCircleWithAngleFromCenter((this.r / 3) * 2, R.Float(dgr + to / 2)),
+                            p3 = this.D.pointOnCircleWithAngleFromCenter((this.r / 3) * 2, R.Float(dgr + to / 2)),
 
-                            p4 = this.pointOnCircleWithAngleFromCenter(this.r - (this.r - this.opts.doughnutHoleOuter) / 2, R.Float(dgr + to / 2))
+                            p4 = this.D.pointOnCircleWithAngleFromCenter(this.r - (this.r - this.opts.doughnutHoleOuter) / 2, R.Float(dgr + to / 2))
 
 
                         var clr = color.dark === true || C.isDark(color.color) ? '#ffffff' : '#000000',
@@ -993,9 +993,9 @@ define([    "rubensjs/rubens",
                         var offs = fontSize, // Space between labels and circle
 
                         // For arc: 0 < dgr < 0.25 || 0.75 < dgr < 1 
-                        p = this.pointOnCircleWithAngleFromCenter(this.opts.rOuter + offs, R.Float((0.75 + dgr + to / 4) % 1)),
+                        p = this.D.pointOnCircleWithAngleFromCenter(this.opts.rOuter + offs, R.Float((0.75 + dgr + to / 4) % 1)),
 
-                        p2 = this.pointOnCircleWithAngleFromCenter(this.opts.rOuter - (this.opts.rOuter - this.opts.doughnutHole) / 2, R.Float((0.75 + dgr + to / 4) % 1)),
+                        p2 = this.D.pointOnCircleWithAngleFromCenter(this.opts.rOuter - (this.opts.rOuter - this.opts.doughnutHole) / 2, R.Float((0.75 + dgr + to / 4) % 1)),
 
                         l = null,
 
@@ -1138,55 +1138,6 @@ define([    "rubensjs/rubens",
                         }
                     },
 
-
-                    // For turning clockwise with arcTo (lowercase a)
-                    // Starting point is given by zero degrees or 12 o'clock
-                    // and turning clockwise
-                    pointOnCircleWithAngleFromCenter: function (radius, angle) {
-
-                        var r = radius,
-                            dx = r,
-                            dy = r
-
-                        if (angle < 0.25) {
-
-                            var d = angle * 360 * util.dgrToRad
-
-                            // sin(d) = opposite / hypotenuse
-                            // sin(d) = x / r
-                            dx = Math.sin(d) * r
-
-                            // x*x + y*y = r*r
-                            // y*y = r*r - x*x
-                            dy = r - Math.sqrt(r * r - dx * dx)
-
-                            return new R.Point(dx, dy)
-                        }
-                        else if (angle < 0.5) {
-                            var d = angle * 360 * util.dgrToRad
-
-                            dx = Math.sin(d) * r
-                            dy = r + Math.sqrt(r * r - dx * dx)
-
-                            return new R.Point(dx, dy)
-                        }
-                        else if (angle < 0.75) {
-                            var d = angle * 360 * util.dgrToRad
-                            dx = Math.sin(d) * r
-
-                            dy = r + Math.sqrt(r * r - dx * dx)
-
-                            return new R.Point(dx, dy)
-                        }
-                        else if (angle <= 1.0) {
-                            var d = (angle - 0.75) * 360 * util.dgrToRad
-                            dy = -1 * Math.sin(d) * r
-                            dx = r - Math.sqrt(r * r - dy * dy)
-
-                            return new R.Point(dx, dy)
-                        }
-                    },
-
                     // ...
                     // Stroke is visible whem clipped (doughnuthole)
                     drawPiePiece: function (p, x, y, hole) {
@@ -1194,8 +1145,8 @@ define([    "rubensjs/rubens",
                             dx = this.r,
                             dy = this.r,
                             r = this.r,
-                            d = this.pointOnCircleWithAngleFromCenter(r, p),
-                            dd = this.pointOnCircleWithAngleFromCenter(rr, p)
+                            d = this.D.pointOnCircleWithAngleFromCenter(r, p),
+                            dd = this.D.pointOnCircleWithAngleFromCenter(rr, p)
 
                         if (p <= 0.50) {
                             var hle = " M " + x + "," + (y + r) +
