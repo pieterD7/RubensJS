@@ -1352,7 +1352,7 @@ define([
                         this.makeClickable()
                     },
 
-                    makeClickable: function () {
+                    makeClickable: function (errorBox) {
                         // Make clickable
                         var h = new Hammer.Manager(
                             document.querySelector('#' + this.id),
@@ -1369,12 +1369,12 @@ define([
                             h.on("panstart", (event) => {
                                 util.eventHandler(() => {
                                     this.initPullLinesY(event);
-                                }, null);
+                                }, errorBox);
                             })
                             h.on("panmove", (event) => {
                                 util.eventHandler(() => {
                                     this.movePullLinesY(event);
-                                }, null);
+                                }, errorBox);
                             })
                         }
                         if (this.clickable && !this.hasClickHandler) {
@@ -1413,7 +1413,7 @@ define([
                                                 });
                                             }
                                         }
-                                    }, null)
+                                    }, errorBox)
                                 }
                             })
                             this.hasClickHandler = true;
