@@ -1369,12 +1369,12 @@ define([
                             h.on("panstart", (event) => {
                                 util.eventHandler(() => {
                                     this.initPullLinesY(event);
-                                }, errorBox);
+                                }, null);
                             })
                             h.on("panmove", (event) => {
                                 util.eventHandler(() => {
                                     this.movePullLinesY(event);
-                                }, errorBox);
+                                }, null);
                             })
                         }
                         if (this.clickable && !this.hasClickHandler) {
@@ -1413,7 +1413,7 @@ define([
                                                 });
                                             }
                                         }
-                                    }, errorBox)
+                                    }, null)
                                 }
                             })
                             this.hasClickHandler = true;
