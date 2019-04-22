@@ -22,7 +22,7 @@ define([    "rubensjs/rubens",
 
                     opts:{
                         red:0,              // Value to indicate in red (maximum value)
-                        yellow:0,           
+                        yellow:0,
                         green:0,
                         angle:90,           // The angle of the arc
                         r: 200,             // The radius of the arc
@@ -64,7 +64,6 @@ define([    "rubensjs/rubens",
                     },
 
                     arcTo: function(from, to, angle){
-                        console.log(from, to, angle)
                         if(angle < 0.5){
                             return this.D.paper.path(
                             "M" + (this.pivotPoint.x + from.x) + "," + (this.pivotPoint.y + from.y - this.r)  +
@@ -106,8 +105,8 @@ define([    "rubensjs/rubens",
                             angleVT = this.valueToAngle(valTo);
 
                         this.indicate(
-                            this.D.pointOnCircleWithAngleFromCenter(this.r, R.Float(angleV)),
-                            this.D.pointOnCircleWithAngleFromCenter(this.r, R.Float(angleVT)),
+                            this.D.pointOnCircleWithAngleFromCenter(this.r, angleV),
+                            this.D.pointOnCircleWithAngleFromCenter(this.r, angleVT),
                             color,
                             angleVT - angleV
                         )
@@ -115,10 +114,9 @@ define([    "rubensjs/rubens",
 
                     valueToAngle: function(value){
                         if(value > this.D.reachMinY && value <= this.D.reachMaxY)
-                            return R.Float(((this.opts.angle / 360) * ((value - this.D.reachMinY))
+                            return (this.opts.angle / 360) * (value - this.D.reachMinY)
                                 /
-                                (this.D.reachMaxY - this.D.reachMinY + 0.00001))
-                            )
+                                (this.D.reachMaxY - this.D.reachMinY + 0)
                         else
                             return 0
                     },

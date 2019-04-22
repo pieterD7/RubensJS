@@ -251,7 +251,7 @@ define([
 
                             return new R.Point(dx, dy)
                         }
-                        else if (angle < 0.75) {
+                        else if (angle <= 0.75) {
                             var d = angle * 360 * util.dgrToRad
                             dx = Math.sin(d) * r
 
