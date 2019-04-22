@@ -1,3 +1,4 @@
 scripts/external/*
 scripts/require.js
 README.md
+.gitignore
