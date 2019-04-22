@@ -64,10 +64,10 @@ define([    "rubensjs/rubens",
                     },
 
                     arcTo: function(from, to, angle){
-                        if(angle < 0.5){
+                        if(angle <= 0.5){
                             return this.D.paper.path(
                             "M" + (this.pivotPoint.x + from.x) + "," + (this.pivotPoint.y + from.y - this.r)  +
-                            " a " + this.r + "," + this.r + " 1 0,1 " + (to.x - from.x) + "," + (to.y -  from.y) + " "
+                            " a " + this.r + "," + this.r + " 1 0,1 " + (to.x - from.x) + "," + (to.y - from.y) + " "
                             )
                          }
                         else{
@@ -114,9 +114,9 @@ define([    "rubensjs/rubens",
 
                     valueToAngle: function(value){
                         if(value > this.D.reachMinY && value <= this.D.reachMaxY)
-                            return (this.opts.angle / 360) * (value - this.D.reachMinY)
+                            return R.Float((this.opts.angle / 360) * (value - this.D.reachMinY)
                                 /
-                                (this.D.reachMaxY - this.D.reachMinY + 0)
+                                (this.D.reachMaxY - this.D.reachMinY))
                         else
                             return 0
                     },
@@ -242,7 +242,7 @@ define([    "rubensjs/rubens",
                         this.pivotPoint = new R.Point(x, y + r)
 
                         // Draw the main shape as background without rotation
-                        this.arcTo(p, p2, this.opts.angle / 360)
+                        this.arcTo(new R.Point(this.getMidX(),this.D.config.paddingTop), p2, this.opts.angle / 360)
                         .attr({
                             //'fill': '',
                             'stroke-linejoin': 'miter',

@@ -229,7 +229,7 @@ define([
 
                         if(isNaN(angle)) return new R.Point(0, 0)
 
-                        if (angle < 0.25) {
+                        if (angle <= 0.25) {
 
                             var d = angle * 360 * util.dgrToRad
 
@@ -243,7 +243,7 @@ define([
 
                             return new R.Point(dx, dy)
                         }
-                        else if (angle < 0.5) {
+                        else if (angle <= 0.5) {
                             var d = angle * 360 * util.dgrToRad
 
                             dx = Math.sin(d) * r
@@ -251,7 +251,7 @@ define([
 
                             return new R.Point(dx, dy)
                         }
-                        else if (angle < 0.75) {
+                        else if (angle <= 0.75) {
                             var d = angle * 360 * util.dgrToRad
                             dx = Math.sin(d) * r
 
@@ -259,13 +259,15 @@ define([
 
                             return new R.Point(dx, dy)
                         }
-                        else if (angle <= 1.0) {
+                        else if (angle < 1.0) {
                             var d = (angle - 0.75) * 360 * util.dgrToRad
                             dy = -1 * Math.sin(d) * r
                             dx = r - Math.sqrt(r * r - dy * dy)
 
                             return new R.Point(dx, dy)
                         }
+                        else return new R.Point(0,0)
+
                     },
 
 
