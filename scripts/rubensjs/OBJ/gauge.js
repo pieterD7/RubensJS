@@ -22,7 +22,7 @@ define([    "rubensjs/rubens",
 
                     opts:{
                         red:0,              // Value to indicate in red (maximum value)
-                        yellow:0,           // Laid on top of red
+                        yellow:0,           
                         green:0,
                         angle:90,           // The angle of the arc
                         r: 200,             // The radius of the arc
@@ -64,10 +64,11 @@ define([    "rubensjs/rubens",
                     },
 
                     arcTo: function(from, to, angle){
+                        console.log(from, to, angle)
                         if(angle < 0.5){
                             return this.D.paper.path(
-                            "M" + from.x + "," + (from.y - this.r)  +
-                            " a " + this.r + "," + this.r + " 1 0,1 " + (to.x) + "," + (to.y) + " "
+                            "M" + (this.pivotPoint.x + from.x) + "," + (this.pivotPoint.y + from.y - this.r)  +
+                            " a " + this.r + "," + this.r + " 1 0,1 " + (to.x - from.x) + "," + (to.y -  from.y) + " "
                             )
                          }
                         else{
@@ -75,18 +76,18 @@ define([    "rubensjs/rubens",
                                 p4 = this.D.pointOnCircleWithAngleFromCenter(this.r, angle - 0.5)
 
                             return this.D.paper.path(
-                                "M" + this.pivotPoint.x + "," + (this.pivotPoint.y - this.r)  +
-                                " a " + this.r + "," + this.r + " 1 0,1 " + (p3.x) + "," + (p3.y) + " " +
-                                "M" + (this.pivotPoint.x+p3.x) + "," + (this.pivotPoint.y+p3.y-this.r)  +
+                                "M" + (from.x) + "," + (from.y )   +
+                                " a " + this.r + "," + this.r + " 1 0,1 " + (p3.x) + "," + (p3.y ) + " " +
+                                "M " + (this.pivotPoint.x+p3.x) + "," + (this.pivotPoint.y+p3.y-this.r)  +
                                 " a " + this.r + "," + this.r + " 1 0,1 " + -1*(p4.x) + "," + -1*(p4.y) + " "
                             )
                         }
                     },
 
                     // Indicates a value and rotate
-                    indicate: function(pV, color, angle){
+                    indicate: function(pV0, pV, color, angle){
                         if(angle > 0){
-                            this.arcTo(this.pivotPoint, pV, angle)
+                            this.arcTo(pV0, pV, angle)
                             .attr(                            {
                                  'stroke-linejoin': 'miter',
                                  'stroke': color,
@@ -98,22 +99,26 @@ define([    "rubensjs/rubens",
                         }
                     },
 
-                    indicateValue: function(val, color){
+                    indicateValue: function(valFrom, valTo, color){
 
-                        var angleV = this.valueToAngle(val);
+                        var
+                            angleV = this.valueToAngle(valFrom),
+                            angleVT = this.valueToAngle(valTo);
 
                         this.indicate(
                             this.D.pointOnCircleWithAngleFromCenter(this.r, R.Float(angleV)),
+                            this.D.pointOnCircleWithAngleFromCenter(this.r, R.Float(angleVT)),
                             color,
-                            angleV
+                            angleVT - angleV
                         )
                     },
 
                     valueToAngle: function(value){
                         if(value > this.D.reachMinY && value <= this.D.reachMaxY)
-                            return (this.opts.angle / 360) * ((value - this.D.reachMinY)
+                            return R.Float(((this.opts.angle / 360) * ((value - this.D.reachMinY))
                                 /
-                                (this.D.reachMaxY - this.D.reachMinY))
+                                (this.D.reachMaxY - this.D.reachMinY + 0.00001))
+                            )
                         else
                             return 0
                     },
@@ -173,16 +178,16 @@ define([    "rubensjs/rubens",
 
                     drawData1: function(){
 
-                        this.indicateValue(this.opts.red, C.color_indicator_red)
+                        this.indicateValue(this.opts.yellow, this.opts.red - 0, C.color_indicator_red)
 
-                        this.indicateValue(this.opts.yellow, C.color_indicator_yellow)
+                        this.indicateValue(this.opts.green, this.opts.yellow, C.color_indicator_yellow)
 
-                        this.indicateValue(this.opts.green, C.color_indicator_green)
+                        this.indicateValue(0, this.opts.green, C.color_indicator_green)
 
                         if(this.opts.pointer)
                             this.drawPointer(this.data[0].data[0].to)
                         else
-                            this.indicateValue(this.data[0].data[0].to, C.itemColor(1).color)
+                            this.indicateValue(0, this.data[0].data[0].to, C.itemColor(1).color)
                     },
 
                     drawPointer: function(val){
@@ -239,12 +244,12 @@ define([    "rubensjs/rubens",
                         this.pivotPoint = new R.Point(x, y + r)
 
                         // Draw the main shape as background without rotation
-                        this.arcTo(this.pivotPoint, p2, this.opts.angle / 360)
+                        this.arcTo(p, p2, this.opts.angle / 360)
                         .attr({
                             //'fill': '',
                             'stroke-linejoin': 'miter',
                             'stroke': C.itemColor(0).color,
-                            'stroke-width':this.opts.strokeWidth,
+                            'stroke-width':this.opts.strokeWidth + 10,
                         })
 
                         // Draw the labels
