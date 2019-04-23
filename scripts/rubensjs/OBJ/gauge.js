@@ -75,7 +75,7 @@ define([    "rubensjs/rubens",
                                 p4 = this.D.pointOnCircleWithAngleFromCenter(this.r, angle - 0.5)
 
                             return this.D.paper.path(
-                                "M" + (from.x) + "," + (from.y )   +
+                                "M" + (this.pivotPoint.x + from.x) + "," + (this.pivotPoint.y + from.y - this.r)   +
                                 " a " + this.r + "," + this.r + " 1 0,1 " + (p3.x) + "," + (p3.y ) + " " +
                                 "M " + (this.pivotPoint.x+p3.x) + "," + (this.pivotPoint.y+p3.y-this.r)  +
                                 " a " + this.r + "," + this.r + " 1 0,1 " + -1*(p4.x) + "," + -1*(p4.y) + " "
@@ -206,8 +206,8 @@ define([    "rubensjs/rubens",
                         .attr({
                             fill:this.opts.colorPointer,
                             stroke: this.opts.colorPointer,
-                             transform: 'rotate(' + (this.getLayerRotationAngle() + angle * 360) +
-                             ' ' + this.pivotPoint.x + ' ' + (this.pivotPoint.y ) + ')'
+                            transform: 'rotate(' + (this.getLayerRotationAngle() + angle * 360) +
+                            ' ' + this.pivotPoint.x + ' ' + (this.pivotPoint.y ) + ')'
                         })
                     },
 
@@ -242,7 +242,7 @@ define([    "rubensjs/rubens",
                         this.pivotPoint = new R.Point(x, y + r)
 
                         // Draw the main shape as background without rotation
-                        this.arcTo(new R.Point(this.getMidX(),this.D.config.paddingTop), p2, this.opts.angle / 360)
+                        this.arcTo(new R.Point(0,0), p2, this.opts.angle / 360)
                         .attr({
                             //'fill': '',
                             'stroke-linejoin': 'miter',
