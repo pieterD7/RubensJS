@@ -44,10 +44,10 @@ define([    "rubensjs/rubens",
                         if (this.opts.makeRadiusFit) {
                             if(this.opts.angle > 180)
                                 this.r = (this.D.w < this.D.h? this.D.w / 2 : this.D.h) / 2
-                            else if( this.D.w > this.D.h)
-                                this.r = this.D.w / 2
-                             else
-                                this.r = this.D.h / 2;
+                            else if( this.D.w < this.D.h)
+                                this.r = this.D.w
+                            else
+                                this.r = this.D.h * ((180 - this.opts.angle) / 180) * 3
                         }
 
                         this.opts.angle %= 361
