@@ -33,9 +33,9 @@ define([    "rubensjs/rubens",
                     },
 
                     init: function (config) {
-                        this.config = config;
+                        this.config = util.extend(config, { marksYLength:0 });
                         this.opts = util.extend(config.opts, this.opts)
-                        this.D.init(this.id, config);
+                        this.D.init(this.id, this.config);
                         this.D.paper = new Rubens(this.id, true, true, fontSize, bgColor);
                         this.D.reachMinX = 0
 
