@@ -823,7 +823,7 @@ define([    "rubensjs/rubens",
                         val = this.formatValue(val)
 
 
-                        if (dgr + to / 2 >= 0.75) {
+                        if (dgr + to / 2 > 0.75) {
                             if (this.lastLabelPos.matches(
                                     new R.Rect(
                                         new R.Point(
