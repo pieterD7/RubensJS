@@ -1,7 +1,9 @@
 requirejs([
     'util/uri',
+    'rubensjs/colors',
     'rubensjs/types',
-    'rubensjs/OBJ/gauge'], function(URI, R, G){
+    'rubensjs/OBJ/gauge',
+    'rubensjs/OBJ/columnChart'], function(URI, CLR, R, G, C){
 
         window.addEventListener('popstate', onPopState);
 
@@ -50,6 +52,9 @@ requirejs([
         // a static layer and a layer indicating value(s)
         var graph = null
 
+        // 0 == gauge, 1 == columns
+        var graphMode = 0
+
         var S = {
             'start':'start',
             'stop':'stop'
@@ -64,13 +69,46 @@ requirejs([
             take = 0;
 
         function init(){
-
             if(typeof bridge != 'undefined'){
                 S = JSON.parse(bridge.getStrings())
             }
 
             document.querySelector('#btnStart').innerHTML = S.start
             document.querySelector('#btnStop').innerHTML = S.stop
+        }
+
+        function initColumns(){
+
+            graph = new C.ColumnChart("chart1", 18, "#888", "#202020")
+
+            graph.opts.drawLabelsOnTop = false
+
+            graph.opts.labelType = 4
+
+            graph.opts.mode = R.CONST.ADD
+
+            graph.opts.colorIter = 2
+
+            graph.opts.superGroups = false
+
+            CLR['color_items'] = [
+                {color:CLR.color_indicator_yellow},
+                {color:CLR.color_indicator_green},
+                {color:CLR.color_indicator_red}
+            ]
+
+            graph.init({
+                padding:4,
+                paddingBottom:100,
+                paddingTop:20
+            })
+
+            graph.setRange(new R.Range(0, 10, 0, 80))
+
+            graph.setSteps(10, 10)
+        }
+
+        function initGauge(){
 
             graph = new G.Gauge("chart1", 18, '#888', '#202020')
 
@@ -130,27 +168,75 @@ requirejs([
 
         }
 
+        // Plot from range -30 - 128 into 0 - 80
+        function plot(val){
+            return ((val - graph.D.reachMinY) /
+                (graph.D.reachMaxY - graph.D.reachMinY)) * 80
+        }
+
+        function between(val, yMin, yMax){
+            return Math.max(
+                Math.min(
+                    plot(parseFloat(val) - yMin),
+                    plot(yMax) - plot(yMin)
+                ),
+                0
+            )
+        }
+
         function onPopState(){
 
-            var val = new URI.URI().uri.split(",")
+            var valArray = new URI.URI().uri.split(",")
 
-            val = parseFloat(val[0])
+            // The score
+            val = parseFloat(valArray[0])
 
-            var score = ((val - graph.D.reachMinY) /
-                (graph.D.reachMaxY - graph.D.reachMinY)) * 80
+            var score = plot(val)
 
             score = round(score, 1)
 
             if(mode == 1)
                 valueToHighestScore(score)
 
-            var data = [{
-                label:null,
-                row:0,
-                data:[
-                    {to:val}]
-                }
-            ]
+            // The graph
+            if(graphMode == 0){
+
+                var data = [{
+                    label:null,
+                    row:0,
+                    data:[
+                        {to:val}]
+                    }
+                ]
+            }
+            else if(graphMode == 1){
+                var vals1 = [],
+                    vals2 = [],
+                    vals3 = [],
+                    equ = [32, 64, 125, 250, 500, '1K', '2K', '4K', '8K', '16K']
+
+                // 0 - 40
+                valArray.forEach( (v, n) => {
+                    if(n > 0){
+                        vals1.push({data:[{to: between(v, 0, 40)}], label:equ[n-1], row:1})
+                    }
+                })
+
+                // 40 - 60
+                valArray.forEach( (v, n) => {
+                    if(n > 0){
+                        vals2.push({data:[{to: between(v, 40, 60)}], label:equ[n-1], row:1})
+                    }
+                })
+
+                // 60 - 80
+                valArray.forEach( (v, n) => {
+                    if(n > 0){
+                        vals3.push({data:[{to: between(v, 60, 80)}], label:equ[n-1], row:1})
+                    }
+                })
+                var data = [vals1, vals2, vals3]
+            }
 
             graph.setData(data)
 
@@ -325,6 +411,10 @@ requirejs([
         }
 
         init()
+        if(graphMode == 0)
+            initGauge()
+        else
+            initColumns()
         onPopState()
 
 })
