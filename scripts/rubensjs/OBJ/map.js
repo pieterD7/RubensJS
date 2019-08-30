@@ -276,8 +276,9 @@ define([
                                 this.drawLineStrings(dd, crs, fillColor, strokeColor, strokeWidth)
                             }
 
-                                // MULTILINESTRING
-                                // ...
+                            else if (type == 'MultiLineString') {
+								this.drawMultiLineStrings(dd, crs, fillColor, strokeColor, strokeWidth)
+                            }
 
                             else if (type == 'Polygon') {
                                 if (dd.geometry && dd.geometry.coordinates)
@@ -434,29 +435,82 @@ define([
                             svg.insert(this.D.paper)
                             svg.renderXml(xml, ps)
                         },
-
+                        
                         drawLineStrings: function (dd, crs, fillColor, strokeColor, strokeWidth) {
                             var ps = []
 
                             dd.geometry.coordinates.forEach((d) => {
 
-                                // Projection
-                                if (crs !== this.crs) {
-                                    var p = proj4(crs, this.crs, [d[0], d[1]]),
-                                    pp = p;
-                                }
-                                else
-                                    pp = [d[0], d[1]]
+								if(d.length > 2 || typeof d[0] == 'object'){
+									ps = []
+									d.forEach( (dd) => {
+										// Projection
+										if (crs !== this.crs) {
+											var p = proj4(crs, this.crs, [dd[0], dd[1]]),
+											pp = p;
+										}
+										else
+											pp = [d[0], d[1]]
+											
+										var x = this.D.toPointX(pp[0]), 
+											y = this.D.toPointY(pp[1])
 
-                                ps.push(new T.Point(pp[0], pp[1]))
+										if(x && y)
+											ps.push(new T.Point(x, y))
+										else console.log("Error 2", x, y, pp, crs, d, typeof d[0])
 
-                                if (ps.length > 1) {
-                                    var lp = this.D.line(ps[ps.length - 2], ps[ps.length - 1])
-                                    if (lp)
-                                        lp.attr({ 'fill': fillColor, 'stroke': strokeColor, 'stroke-width': strokeWidth })
-                                }
+										if (ps.length > 1) {
+											var lp = this.D.line(ps[ps.length - 2], ps[ps.length - 1])
+											if (lp)
+												lp.attr({ 'fill': fillColor, 'stroke': strokeColor, 'stroke-width': strokeWidth })
+										}
+									})
+								}
+								else{
+									// Projection
+									if (crs !== this.crs) {
+										var p = proj4(crs, this.crs, [d[0], d[1]]),
+										pp = p;
+									}
+									else
+										pp = [d[0], d[1]]
+										
+									var x = this.D.toPointX(pp[0]), 
+										y = this.D.toPointY(pp[1])
+
+									if(x && y)
+										ps.push(new T.Point(x, y))
+									else console.log("Error 2", x, y, pp, crs, d, typeof d[0])
+
+									if (ps.length > 1) {
+										var lp = this.D.line(ps[ps.length - 2], ps[ps.length - 1])
+										if (lp)
+											lp.attr({ 'fill': fillColor, 'stroke': strokeColor, 'stroke-width': strokeWidth })
+									}
+								}                                
                             })
                         },
+
+						lastMultiLineStringPoint:null,
+						
+						drawMultiLineStrings: function(dd, crs, fillColor, strokeColor, strokeWidth){
+											
+							if(dd.geometry.coordinates.length == 1){
+								if(this.lastMultiLineStringPoint != null){
+									var d = {geometry:{coordinates:[]}}
+									d.geometry.coordinates = this.lastMultiLineStringPoint		
+									this.drawLineStrings(d, crs, fillColor, strokeColor, strokeWidth)	
+									this.lastMultiLineStringPoint = dd.geometry.coordinates[0]
+								}
+								else{
+									this.lastMultiLineStringPoint = dd.geometry.coordinates[0]
+								}
+							}
+							else{				
+								this.lastMultiLineStringPoint = null
+								this.drawLineStrings(dd, crs, fillColor, strokeColor, strokeWidth)
+							}
+						},
 
                         drawEnvelope: function () {
 
