@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+    <style>
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    *{
+       box-sizing: border-box;
+    }
+
+    body, svg{
+        font-family:Arial, sans-serif;
+        background:#202020;
+        margin:0;
+        padding:0;
+    }
+
+    ul{
+        float:left;
+        clear:left;
+    }
+
+    li{
+        float:left;
+        min-width:8em;
+    }
+
+    li > span{
+        letter-spacing:0.1em;
+    }
+
+    #btnClear{
+        text-align:right;
+        padding-right:0.5em;
+        padding-top:0.5em;
+    }
+
+    #ads{
+        height:0em;
+    }
+
+    #chart1{
+    }
+
+    #measurements{
+        color:#f7f7f7;
+    }
+
+    #measurements > div{
+        margin-right:0.75em;
+        margin-left:0.75em;
+        border:1px solid black;
+        height:100%;
+    }
+
+    #measurements > div > *{
+        display:block;
+    }
+
+    #toolbar{
+        height:4em;
+        width:100%;
+        padding-top:1em;
+        text-align:center;
+        color:#f7f7f7;
+    }
+
+    #toolbar > span{
+        background:black;
+        padding:0.75em;
+        margin-right:0.5em;
+        margin-left:0.5em;
+        line-height:3em;
+        border-radius:8px;
+        text-transform: capitalize;
+        text-shadow:2px 2px #202020;
+        border:1px solid #f7f7f7;
+        letter-spacing:0.1em;
+    }
+
+    #iconMean{
+        background:url('iconMean.png');
+    }
+
+    #iconPeak{
+        background:url('iconPeak.png');
+    }
+
+    .scroll{
+        float:left;
+        clear:left;
+        overflow:scroll;
+    }
+
+    .icon{
+        box-sizing: content-box;
+        display:block;
+        float:left;
+        margin-left:0.5em;
+        margin-top:0.5em;
+        border:3px solid black;
+        border-radius:4px;
+        height:24px;
+        width:24px;
+    }
+
+    .icon:not(.grayed):active{
+        border:3px solid #888;
+    }
+
+    .grayed{
+        opacity:0.25;
+    }
+
+    .red{
+        color:gray;
+    }
+
+    .left{
+        width:50%;
+        float:left;
+    }
+
+    @media screen and (orientation:landscape) {
+        #chart1{
+            display: flex;
+            margin-top:0px;
+            height:calc(100vh - 4em - 0em);
+            width: 67vw;
+            float:left;
+        }
+        #measurements{
+            padding-top:1.5em;
+            float:left;
+            width:33vw;
+            height:calc(100vh - 4em - 0em);
+        }
+        .iconbar{
+            height:calc(24px + 1em);
+        }
+        .scroll{
+            overflow:scroll;
+            height:calc(100vh - 4em - 0em - 1.5em - 24px - 1em);
+        }
+    }
+    @media screen and (orientation:portrait) {
+        #chart1{
+            display:flex;
+            height:50vh;
+            width:100vw;
+        }
+        #measurements{
+            clear:left;
+            float:left;
+            background:#202020;
+            width:100%;
+            height:calc(50vh - 4em - 0em);
+        }
+        .iconbar{
+            height:calc(24px + 1em);
+        }
+        .scroll{
+            overflow:scroll;
+            height:calc(50vh - 4em - 0em - 24px - 1em);
+        }
+    }
+
+</style>
+</head>
+
+<body>
+<div id='ads'></div>
+<div id='toolbar'><span id='btnStart'></span>&nbsp;&nbsp;<span id='btnStop' class='grayed'></span></div>
+<div id='chart1'></div>
+<div id='measurements'>
+    <div>
+        <div id='iconBar'>
+            <div class='left'>
+                <span id='iconPeak' class="icon grayed"></span>
+                <span id='iconMean' class='icon grayed'></span>
+            </div>
+            <div id='btnClear' class="left grayed">X</div>
+        </div>
+        <div class='scroll'>
+            <ul id='scores'>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript' data-main="applausemeter" src="scripts/require.js"></script>
+
+</body>
+</html>
