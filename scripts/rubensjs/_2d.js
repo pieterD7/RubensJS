@@ -259,7 +259,7 @@ define([
 
                             return new R.Point(dx, dy)
                         }
-                        else if (angle < 1.0) {
+                        else if (angle <= 1.0) {
                             var d = (angle - 0.75) * 360 * util.dgrToRad
                             dy = -1 * Math.sin(d) * r
                             dx = r - Math.sqrt(r * r - dy * dy)
